@@ -1,0 +1,304 @@
+{
+  "contractName": "CallerContractInterface",
+  "abi": [
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "_ethPrice",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "id",
+          "type": "uint256"
+        }
+      ],
+      "name": "callback",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    }
+  ],
+  "metadata": "{\"compiler\":{\"version\":\"0.8.9+commit.e5eed63a\"},\"language\":\"Solidity\",\"output\":{\"abi\":[{\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"_ethPrice\",\"type\":\"uint256\"},{\"internalType\":\"uint256\",\"name\":\"id\",\"type\":\"uint256\"}],\"name\":\"callback\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"}],\"devdoc\":{\"kind\":\"dev\",\"methods\":{},\"version\":1},\"userdoc\":{\"kind\":\"user\",\"methods\":{},\"version\":1}},\"settings\":{\"compilationTarget\":{\"project:/contracts/CallerContractInterface.sol\":\"CallerContractInterface\"},\"evmVersion\":\"london\",\"libraries\":{},\"metadata\":{\"bytecodeHash\":\"ipfs\"},\"optimizer\":{\"enabled\":false,\"runs\":200},\"remappings\":[]},\"sources\":{\"project:/contracts/CallerContractInterface.sol\":{\"keccak256\":\"0x956aba21606c95f05ec2dd0cf6d75fab82dd4071dfca0e83c3159445e909d734\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://9b7d4463e1db33e5d7e560739ae1edb181088d96dfc3cdb1f2a675ef9487fb4e\",\"dweb:/ipfs/QmdedtAsDdQ22n9ZUHnemYUgHjXeKsdv3JWDuB1DsmuaUP\"]}},\"version\":1}",
+  "bytecode": "0x",
+  "deployedBytecode": "0x",
+  "immutableReferences": {},
+  "generatedSources": [],
+  "deployedGeneratedSources": [],
+  "sourceMap": "",
+  "deployedSourceMap": "",
+  "source": "// SPDX-License-Identifier: MIT\r\n\r\npragma solidity ^0.8.0;\r\n\r\nabstract contract CallerContractInterface {\r\n    function callback(uint256 _ethPrice, uint256 id) public virtual;\r\n}\r\n",
+  "sourcePath": "C:\\Users\\Nico\\Projects\\eth\\eth-price-oracle\\oracle\\contracts\\CallerContractInterface.sol",
+  "ast": {
+    "absolutePath": "project:/contracts/CallerContractInterface.sol",
+    "exportedSymbols": {
+      "CallerContractInterface": [
+        135
+      ]
+    },
+    "id": 136,
+    "license": "MIT",
+    "nodeType": "SourceUnit",
+    "nodes": [
+      {
+        "id": 127,
+        "literals": [
+          "solidity",
+          "^",
+          "0.8",
+          ".0"
+        ],
+        "nodeType": "PragmaDirective",
+        "src": "35:23:2"
+      },
+      {
+        "abstract": true,
+        "baseContracts": [],
+        "canonicalName": "CallerContractInterface",
+        "contractDependencies": [],
+        "contractKind": "contract",
+        "fullyImplemented": false,
+        "id": 135,
+        "linearizedBaseContracts": [
+          135
+        ],
+        "name": "CallerContractInterface",
+        "nameLocation": "80:23:2",
+        "nodeType": "ContractDefinition",
+        "nodes": [
+          {
+            "functionSelector": "b5d73ba4",
+            "id": 134,
+            "implemented": false,
+            "kind": "function",
+            "modifiers": [],
+            "name": "callback",
+            "nameLocation": "120:8:2",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 132,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 129,
+                  "mutability": "mutable",
+                  "name": "_ethPrice",
+                  "nameLocation": "137:9:2",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 134,
+                  "src": "129:17:2",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 128,
+                    "name": "uint256",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "129:7:2",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 131,
+                  "mutability": "mutable",
+                  "name": "id",
+                  "nameLocation": "156:2:2",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 134,
+                  "src": "148:10:2",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 130,
+                    "name": "uint256",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "148:7:2",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "visibility": "internal"
+                }
+              ],
+              "src": "128:31:2"
+            },
+            "returnParameters": {
+              "id": 133,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "174:0:2"
+            },
+            "scope": 135,
+            "src": "111:64:2",
+            "stateMutability": "nonpayable",
+            "virtual": true,
+            "visibility": "public"
+          }
+        ],
+        "scope": 136,
+        "src": "62:116:2",
+        "usedErrors": []
+      }
+    ],
+    "src": "35:145:2"
+  },
+  "legacyAST": {
+    "absolutePath": "project:/contracts/CallerContractInterface.sol",
+    "exportedSymbols": {
+      "CallerContractInterface": [
+        135
+      ]
+    },
+    "id": 136,
+    "license": "MIT",
+    "nodeType": "SourceUnit",
+    "nodes": [
+      {
+        "id": 127,
+        "literals": [
+          "solidity",
+          "^",
+          "0.8",
+          ".0"
+        ],
+        "nodeType": "PragmaDirective",
+        "src": "35:23:2"
+      },
+      {
+        "abstract": true,
+        "baseContracts": [],
+        "canonicalName": "CallerContractInterface",
+        "contractDependencies": [],
+        "contractKind": "contract",
+        "fullyImplemented": false,
+        "id": 135,
+        "linearizedBaseContracts": [
+          135
+        ],
+        "name": "CallerContractInterface",
+        "nameLocation": "80:23:2",
+        "nodeType": "ContractDefinition",
+        "nodes": [
+          {
+            "functionSelector": "b5d73ba4",
+            "id": 134,
+            "implemented": false,
+            "kind": "function",
+            "modifiers": [],
+            "name": "callback",
+            "nameLocation": "120:8:2",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 132,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 129,
+                  "mutability": "mutable",
+                  "name": "_ethPrice",
+                  "nameLocation": "137:9:2",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 134,
+                  "src": "129:17:2",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 128,
+                    "name": "uint256",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "129:7:2",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 131,
+                  "mutability": "mutable",
+                  "name": "id",
+                  "nameLocation": "156:2:2",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 134,
+                  "src": "148:10:2",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 130,
+                    "name": "uint256",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "148:7:2",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "visibility": "internal"
+                }
+              ],
+              "src": "128:31:2"
+            },
+            "returnParameters": {
+              "id": 133,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "174:0:2"
+            },
+            "scope": 135,
+            "src": "111:64:2",
+            "stateMutability": "nonpayable",
+            "virtual": true,
+            "visibility": "public"
+          }
+        ],
+        "scope": 136,
+        "src": "62:116:2",
+        "usedErrors": []
+      }
+    ],
+    "src": "35:145:2"
+  },
+  "compiler": {
+    "name": "solc",
+    "version": "0.8.9+commit.e5eed63a.Emscripten.clang"
+  },
+  "networks": {},
+  "schemaVersion": "3.4.3",
+  "updatedAt": "2021-10-11T17:19:49.993Z",
+  "devdoc": {
+    "kind": "dev",
+    "methods": {},
+    "version": 1
+  },
+  "userdoc": {
+    "kind": "user",
+    "methods": {},
+    "version": 1
+  }
+}
