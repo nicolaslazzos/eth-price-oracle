@@ -1,5 +1,7 @@
-pragma solidity 0.5.0;
+// SPDX-License-Identifier: MIT
 
-contract EthPriceOracleInterface {
-    function getLatestEthPrice() public returns (uint256);
+pragma solidity ^0.8.0;
+
+abstract contract EthPriceOracleInterface {
+    function getLatestEthPrice() public virtual returns (uint256);
 }
