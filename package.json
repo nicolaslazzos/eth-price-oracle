@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "dev": "node index.js && node client.js"
   },
   "author": "Nicolas Lazzos",
   "license": "MIT",
@@ -13,6 +13,7 @@
     "bn.js": "5.2.0",
     "openzeppelin-solidity": "4.3.2",
     "truffle": "5.4.14",
-    "truffle-hdwallet-provider": "1.0.17"
+    "truffle-hdwallet-provider": "1.0.17",
+    "web3": "1.5.3"
   }
 }
