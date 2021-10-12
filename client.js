@@ -11,12 +11,13 @@ async function getCallerContract(web3js) {
 
 async function filterEvents(callerContract) {
   callerContract.events.PriceUpdatedEvent({ filter: {} }, async (err, event) => {
-    if (err) console.error("Error on event", err);
-    console.log("* New PriceUpdated event. ethPrice: " + event.returnValues.ethPrice);
+    if (err) console.error("[PriceUpdatedEvent]", err);
+    console.log(`* [PriceUpdatedEvent] (${event.returnValues.id}) ethPrice:`, event.returnValues.ethPrice);
   });
 
   callerContract.events.ReceivedNewRequestIdEvent({ filter: {} }, async (err, event) => {
-    if (err) console.error("Error on event", err);
+    if (err) console.error("[ReceivedNewRequestIdEvent]", err);
+    console.log(`* [ReceivedNewRequestIdEvent] (${event.returnValues.id})`);
   });
 }
 
@@ -24,6 +25,8 @@ async function init() {
   const { ownerAddress, web3js } = await loadAccount();
   const callerContract = await getCallerContract(web3js);
   filterEvents(callerContract);
+
+  console.log("Provider Initialized:", ownerAddress);
 
   return { callerContract, ownerAddress, web3js };
 }
@@ -37,9 +40,14 @@ async function init() {
 
   const networkId = await web3js.eth.net.getId();
   const oracleAddress = OracleJSON.networks[networkId].address;
-  await callerContract.methods.setOracleInstanceAddress(oracleAddress).send({ from: ownerAddress });
+  await callerContract.methods.setOracleInstanceAddress(oracleAddress).send({ from: ownerAddress, gas: 1000000 });
 
-  setInterval(async () => {
-    await callerContract.methods.updateEthPrice().send({ from: ownerAddress });
-  }, SLEEP_INTERVAL);
+  while (true) {
+    try {
+      console.log(new Date().toISOString(), "Calling [updateEthPrice]");
+
+      await callerContract.methods.updateEthPrice().send({ from: ownerAddress, gas: 1000000 });
+      await new Promise((res) => setTimeout(res, SLEEP_INTERVAL));
+    } catch {}
+  }
 })();

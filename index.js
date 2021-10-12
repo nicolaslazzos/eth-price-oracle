@@ -28,13 +28,15 @@ async function retrieveLatestEthPrice() {
 
 async function filterEvents(oracleContract, web3js) {
   oracleContract.events.GetLatestEthPriceEvent(async (err, event) => {
-    if (err) return console.error("Error on event", err);
+    if (err) return console.error("[GetLatestEthPriceEvent]", err);
+    console.log(`* [GetLatestEthPriceEvent] (${event.returnValues.id})`);
 
     await addRequestToQueue(event);
   });
 
   oracleContract.events.SetLatestEthPriceEvent(async (err, event) => {
-    if (err) console.error("Error on event", err);
+    if (err) console.error("[SetLatestEthPriceEvent]", err);
+    console.log(`* [SetLatestEthPriceEvent] ethPrice:`, event.returnValues.ethPrice);
   });
 }
 
@@ -45,6 +47,8 @@ async function addRequestToQueue(event) {
 }
 
 async function processQueue(oracleContract, ownerAddress) {
+  console.log(new Date().toISOString(), "Checking [processQueue]", `(${pendingRequests.length} Pending)`);
+
   let processedRequests = 0;
 
   while (pendingRequests.length > 0 && processedRequests < CHUNK_SIZE) {
@@ -84,9 +88,9 @@ async function setLatestEthPrice(oracleContract, callerAddress, ownerAddress, et
   try {
     await oracleContract.methods
       .setLatestEthPrice(ethPriceInt.toString(), callerAddress, idInt.toString())
-      .send({ from: ownerAddress });
+      .send({ from: ownerAddress, gas: 1000000 });
   } catch (error) {
-    console.log("Error encountered while calling setLatestEthPrice.");
+    console.log("[setLatestEthPrice]", error);
   }
 }
 
@@ -94,6 +98,8 @@ async function init() {
   const { ownerAddress, web3js } = await loadAccount();
   const oracleContract = await getOracleContract(web3js);
   filterEvents(oracleContract, web3js);
+
+  console.log("Provider Initialized:", ownerAddress);
 
   return { oracleContract, ownerAddress };
 }
@@ -105,7 +111,8 @@ async function init() {
     process.exit();
   });
 
-  setInterval(async () => {
+  while (true) {
     await processQueue(oracleContract, ownerAddress);
-  }, SLEEP_INTERVAL);
+    await new Promise((res) => setTimeout(res, SLEEP_INTERVAL));
+  }
 })();
