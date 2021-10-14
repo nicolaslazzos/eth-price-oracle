@@ -12,12 +12,22 @@ contract EthPriceOracle is AccessControl {
     uint256 private randNonce = 0;
     uint256 private modulus = 1000;
     uint256 private numOracles = 0;
+    uint256 private THRESHOLD = 0;
+
+    struct Response {
+        address oracleAddress;
+        address callerAddress;
+        uint256 ethPrice;
+    }
+
     mapping(uint256 => bool) pendingRequests;
+    mapping(uint256 => Response[]) public requestIdToResponse;
 
     event GetLatestEthPriceEvent(address callerAddress, uint256 id);
     event SetLatestEthPriceEvent(uint256 ethPrice, address callerAddress);
     event AddOracleEvent(address oracleAddress);
     event RemoveOracleEvent(address oracleAddress);
+    event SetThresholdEvent(uint256 threshold);
 
     constructor(address _owner) {
         _setRoleAdmin(ORACLE_ROLE, OWNER_ROLE);
@@ -39,6 +49,11 @@ contract EthPriceOracle is AccessControl {
         emit RemoveOracleEvent(_oracle);
     }
 
+    function setThreshold(uint256 _threshold) public onlyRole(OWNER_ROLE) {
+        THRESHOLD = _threshold;
+        emit SetThresholdEvent(THRESHOLD);
+    }
+
     function getLatestEthPrice() public returns (uint256) {
         randNonce++;
         uint256 id = uint256(
@@ -58,11 +73,27 @@ contract EthPriceOracle is AccessControl {
             pendingRequests[_id],
             "This request is not in my pending list."
         );
-        delete pendingRequests[_id];
 
-        CallerContractInterface callerContractInstance;
-        callerContractInstance = CallerContractInterface(_callerAddress);
-        callerContractInstance.callback(_ethPrice, _id);
-        emit SetLatestEthPriceEvent(_ethPrice, _callerAddress);
+        Response memory resp = Response(msg.sender, _callerAddress, _ethPrice);
+        requestIdToResponse[_id].push(resp);
+
+        uint256 numResponses = requestIdToResponse[_id].length;
+
+        if (numResponses == THRESHOLD) {
+            delete pendingRequests[_id];
+
+            uint256 computedEthPrice = 0;
+
+            for (uint256 f = 0; f < numResponses; f++) {
+                computedEthPrice += requestIdToResponse[_id][f].ethPrice;
+            }
+
+            computedEthPrice = computedEthPrice / numResponses;
+
+            CallerContractInterface callerContractInstance;
+            callerContractInstance = CallerContractInterface(_callerAddress);
+            callerContractInstance.callback(computedEthPrice, _id);
+            emit SetLatestEthPriceEvent(computedEthPrice, _callerAddress);
+        }
     }
 }
