@@ -3,9 +3,12 @@
 pragma solidity ^0.8.0;
 
 import "openzeppelin-solidity/contracts/access/AccessControl.sol";
+import "openzeppelin-solidity/contracts/utils/math/SafeMath.sol";
 import "./CallerContractInterface.sol";
 
 contract EthPriceOracle is AccessControl {
+    using SafeMath for uint256;
+
     bytes32 public constant ORACLE_ROLE = keccak256("ORACLE_ROLE");
     bytes32 public constant OWNER_ROLE = keccak256("OWNER_ROLE");
 
@@ -80,15 +83,18 @@ contract EthPriceOracle is AccessControl {
         uint256 numResponses = requestIdToResponse[_id].length;
 
         if (numResponses == THRESHOLD) {
-            delete pendingRequests[_id];
-
             uint256 computedEthPrice = 0;
 
             for (uint256 f = 0; f < numResponses; f++) {
-                computedEthPrice += requestIdToResponse[_id][f].ethPrice;
+                computedEthPrice = computedEthPrice.add(
+                    requestIdToResponse[_id][f].ethPrice
+                );
             }
 
-            computedEthPrice = computedEthPrice / numResponses;
+            computedEthPrice = computedEthPrice.div(numResponses);
+
+            delete pendingRequests[_id];
+            delete requestIdToResponse[_id];
 
             CallerContractInterface callerContractInstance;
             callerContractInstance = CallerContractInterface(_callerAddress);
