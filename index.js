@@ -3,7 +3,7 @@ const BN = require("bn.js");
 const { loadAccount } = require("./common");
 const OracleJSON = require("./oracle/build/contracts/EthPriceOracle.json");
 
-const SLEEP_INTERVAL = process.env.SLEEP_INTERVAL || 2000;
+const SLEEP_INTERVAL = process.env.SLEEP_INTERVAL || 5000;
 const CHUNK_SIZE = process.env.CHUNK_SIZE || 3;
 const MAX_RETRIES = process.env.MAX_RETRIES || 5;
 
@@ -37,6 +37,16 @@ async function filterEvents(oracleContract, web3js) {
   oracleContract.events.SetLatestEthPriceEvent(async (err, event) => {
     if (err) console.error("[SetLatestEthPriceEvent]", err);
     console.log(`* [SetLatestEthPriceEvent] ethPrice:`, event.returnValues.ethPrice);
+  });
+
+  oracleContract.events.AddOracleEvent(async (err, event) => {
+    if (err) console.error("[AddOracleEvent]", err);
+    console.log(`* [AddOracleEvent] address:`, event.returnValues.oracleAddress);
+  });
+
+  oracleContract.events.SetThresholdEvent(async (err, event) => {
+    if (err) console.error("[SetThresholdEvent]", err);
+    console.log(`* [SetThresholdEvent] threshold:`, event.returnValues.threshold);
   });
 }
 
@@ -110,6 +120,14 @@ async function init() {
   process.on("SIGINT", () => {
     process.exit();
   });
+
+  try {
+    await oracleContract.methods.addOracle(ownerAddress).send({ from: ownerAddress, gas: 1000000 });
+  } catch {}
+
+  try {
+    await oracleContract.methods.setThreshold(1).send({ from: ownerAddress, gas: 1000000 });
+  } catch {}
 
   while (true) {
     await processQueue(oracleContract, ownerAddress);
